@@ -27,7 +27,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         const dir = './uploads';
-        if (!fs.existsSync(dir)){
+        if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir);
         }
         cb(null, dir);
@@ -71,14 +71,14 @@ app.post('/api/sarees', upload.single('image'), async (req, res) => {
 
     try {
         let imageUrl = null;
-        
+
         if (req.file) {
             // Upload to Cloudinary
             const result = await cloudinary.uploader.upload(req.file.path, {
                 folder: 'saree_catalog'
             });
             imageUrl = result.secure_url;
-            
+
             // Delete local temp file
             fs.unlinkSync(req.file.path);
         }
